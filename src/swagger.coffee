@@ -270,6 +270,8 @@ class SwaggerResource
         # sanitize the nickname
         o.nickname = @sanitize o.nickname
 
+        console.log "full operation data", o
+
         op = new SwaggerOperation o.nickname, resource_path, method, o.parameters, o.summary, o.notes, o.responseClass, responseMessages, this, consumes, produces
         @operations[op.nickname] = op
         @operationsArray.push op
