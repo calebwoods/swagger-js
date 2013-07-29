@@ -1,6 +1,6 @@
 
 class SwaggerApi
-  
+
   # Defaults
   url: "http://api.wordnik.com/v4/resources.json"
   debug: false
@@ -12,7 +12,7 @@ class SwaggerApi
   constructor: (url, options={}) ->
     # if url is a hash, assume only options were passed
 
-    if url 
+    if url
       if url.url
         options = url
       else
@@ -33,7 +33,7 @@ class SwaggerApi
   build: ->
     @progress 'fetching resource list: ' + @url
     console.log 'getting ' + @url
-    obj = 
+    obj =
       url: @url
       method: "get"
       headers: {}
@@ -87,7 +87,7 @@ class SwaggerApi
           if this.success
             this.success()
           this
-          
+
     # apply authorizations
     e = {}
     if typeof window != 'undefined'
@@ -100,7 +100,7 @@ class SwaggerApi
     @
 
   # This method is called each time a child resource finishes loading
-  # 
+  #
   selfReflect: ->
     return false unless @apis?
     for resource_name, resource of @apis
@@ -134,7 +134,7 @@ class SwaggerApi
         for parameter in operation.parameters
           console.log "    #{parameter.name}#{if parameter.required then ' (required)'  else ''} - #{parameter.description}"
     @
-        
+
 class SwaggerResource
   api: null
   produces: null
@@ -177,7 +177,7 @@ class SwaggerResource
       @url = @api.basePath + @path.replace('{format}', 'json')
 
       @api.progress 'fetching resource ' + @name + ': ' + @url
-      obj = 
+      obj =
         url: @url
         method: "get"
         headers: {}
@@ -276,7 +276,7 @@ class SwaggerResource
 
   sanitize: (nickname) ->
     # allow only _a-zA-Z0-9
-    op = nickname.replace /[\s!@#$%^&*()_+=\[{\]};:<>|./?,\\'""-]/g, '_'
+    op = nickname.replace /[\s!@#$%^&*()_+=\[{\]};:<>|.\/?,\\'""-]/g, '_'
     # trim multiple underscores to one
     op = op.replace /((_){2,})/g, '_'
     # ditch leading underscores
@@ -472,7 +472,7 @@ class SwaggerOperation
       # if container is list wrap it
       val = if listType then [val] else val
       JSON.stringify(val, null, 2)
-      
+
   do: (args={}, opts={}, callback, error) =>
     requestContentType = null
     responseContentType = null
@@ -501,15 +501,15 @@ class SwaggerOperation
         else
           content = "no data"
         console.log "default callback: " + content
-    
+
     # params to pass into the request
     params = {}
 
-    # Pull headers out of args    
+    # Pull headers out of args
     if args.headers?
       params.headers = args.headers
       delete args.headers
-      
+
     # Pull body out of args
     if args.body?
       params.body = args.body
@@ -570,7 +570,7 @@ class SwaggerOperation
 
   getQueryParams: (args) ->
     @getMatchingParams ['query'], args
- 
+
   getHeaderParams: (args) ->
     @getMatchingParams ['header'], args
 
@@ -670,7 +670,7 @@ class SwaggerRequest
 
     unless headers? and headers.mock?
 
-      obj = 
+      obj =
         url: @url
         method: @type
         headers: myHeaders
@@ -710,7 +710,7 @@ class SwaggerHttp
   shred: null
   content: null
 
-  constructor: ->    
+  constructor: ->
     if typeof window != 'undefined'
       @Shred = require "./shred"
     else
@@ -719,7 +719,7 @@ class SwaggerHttp
 
     identity = (x) => x
     toString = (x) => x.toString()
-      
+
     if typeof window != 'undefined'
       @content = require "./shred/content"
       @content.registerProcessor(
